@@ -3,6 +3,7 @@ const CAT_URL = "http://localhost:3000/api/v1/categories"
 const sideBar = document.getElementById('side-bar')
 const displayPanel = document.getElementById('display-panel')
 const newForm = document.getElementById('new-form')
+const searchForm = document.getElementById('search-form')
 const filterSelect = document.getElementById('filter')
 const submitButton = document.getElementById('btn-submit')
 
@@ -16,6 +17,29 @@ fetch(CAT_URL)
   .then(json => populateSelects(json))
 
 filterSelect.addEventListener('change', handleFilter)
+searchForm.addEventListener('submit', handleSearch)
+
+//search
+function handleSearch(ev) {
+  ev.preventDefault()
+  if (ev.target.search.value !== "") {
+    const keyword = ev.target.search.value
+    clearDisplayPanel()
+    const titles = sideBar.children
+    const markedForDelete = []
+    for (const title of titles) {
+      console.log(title.firstChild.textContent)
+      const disease = title.firstChild.textContent.toLowerCase()
+      // console.log(disease)
+      if (!disease.includes(keyword)) {
+        markedForDelete.push(title)
+      }
+    }
+    markedForDelete.forEach( (title) => {
+      title.remove()
+    })
+  }
+}
 
 //filter side Bar
 function handleFilter(ev) {
