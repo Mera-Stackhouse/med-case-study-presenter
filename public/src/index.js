@@ -157,6 +157,7 @@ function handleSubmit(ev) {
     })
   }).then(resp => resp.json())
   .then(json => addNewCase(json, title, body))
+  //where does the catch go?
 }
 
 function addNewCase(json, title, body) {
