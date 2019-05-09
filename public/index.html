@@ -12,11 +12,28 @@
   <body>
     <div class="container">
       <div class="row">
-        <div class="col">
-          <h1>Cases:</h1>
+        <div class="top-menu">
+          <h2>Medical Case Study Browser</h2>
+          <div class="keyword-search">
+            <form id='search-form' class="padding margin border-round border-grey">
+              <input type="text" name="search" placeholder="search" value="">
+              <input type="submit" value="Submit">
+            </form>
+          </div>
+          <div class="category-selection">
+            <select id='filter'>
+              <option value="0">Filter by category:</option>
+            </select>
+          </div>
+        </div>
+      <!-- row -->
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <h4>Cases:</h4>
           <ul id='side-bar'></ul>
         </div>
-        <div class="col-9">
+        <div class="col">
           <ul id='display-panel'>
 
           </ul>
@@ -26,9 +43,12 @@
       <div class="row">
         <h5>New Case</h5>
         <form id='new-form' class="padding margin border-round border-grey">
-          <input type="title" name="title" placeholder="title" value="">
-          <input type="body" name="body" placeholder="body" value="">
-          <input type="submit"value="Submit">
+          <input type="text" name="title" placeholder="title" value="">
+          <!-- <textarea name="body" rows="8" cols="80" placeholder="body"></textarea> -->
+          <input type="textarea" name="body" placeholder="body" value="">
+          <br>
+          <label>Categories:</label>
+          <input id='btn-submit' type="submit" value="Submit">
         </form>
       <!-- row -->
       </div>

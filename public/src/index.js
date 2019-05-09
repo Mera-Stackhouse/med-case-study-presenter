@@ -1,12 +1,72 @@
 const CASE_URL = "http://localhost:3000/api/v1/cases"
+const CAT_URL = "http://localhost:3000/api/v1/categories"
 const sideBar = document.getElementById('side-bar')
 const displayPanel = document.getElementById('display-panel')
 const newForm = document.getElementById('new-form')
+const filterSelect = document.getElementById('filter')
+const submitButton = document.getElementById('btn-submit')
+
 
 fetch(CASE_URL)
   .then(resp => resp.json())
   .then(json => populateCaseBar(json))
 
+fetch(CAT_URL)
+  .then(resp => resp.json())
+  .then(json => populateSelects(json))
+
+filterSelect.addEventListener('change', handleFilter)
+
+//filter side Bar
+function handleFilter(ev) {
+  clearDisplayPanel()
+  clearSideBar()
+  if (ev.target.value === "0") {
+    fetch(CASE_URL)
+      .then(resp => resp.json())
+      .then(json => populateCaseBar(json))
+  } else {
+    fetch(CAT_URL + "/" + ev.target.value)
+      .then(resp => resp.json())
+      .then(json => populateCaseBar(json.cases))
+  }
+}
+
+function resetFilter() {
+  clearSideBar()
+  clearDisplayPanel()
+  filterSelect.value = "0"
+  fetch(CASE_URL)
+    .then(resp => resp.json())
+    .then(json => populateCaseBar(json))
+}
+
+// populate select filter and new form check boxes
+function populateSelects(json) {
+  json.forEach( (cat) => {
+    const option = document.createElement('option')
+    option.value = cat.id
+    option.textContent = cat.tag
+    filterSelect.appendChild(option)
+
+    const div = document.createElement('div')
+
+    const catInput = document.createElement('input')
+    catInput.type = "checkbox"
+    catInput.id = cat.id
+    catInput.classList.add("categories")
+    catInput.name = cat.tag
+    div.appendChild(catInput)
+
+    const label = document.createElement('label')
+    label.textContent = cat.tag
+    label.setAttribute('for', cat.tag)
+    div.appendChild(label)
+    newForm.insertBefore(div, submitButton)
+  })
+}
+
+//Side Bar
 function populateCaseBar(json) {
   json.forEach( (eachCase) => {
     createATitle(eachCase)
@@ -23,6 +83,7 @@ function createATitle(eachCase) {
   li.appendChild(h4)
 }
 
+// Display Panel
 function displayCase(eachCase, li) {
   clearDisplayPanel()
 
@@ -41,23 +102,49 @@ function displayCase(eachCase, li) {
   displayPanel.appendChild(deleteButton)
   deleteButton.addEventListener('click', () => handleDelete(eachCase, li))
 
+  const catUl = document.createElement('ul')
+  catUl.textContent = "Tags:"
+  displayPanel.appendChild(catUl)
+
+  eachCase.categories.forEach( (cat) => {
+    const catLi = document.createElement('li')
+    catLi.textContent = cat.tag
+    catUl.appendChild(catLi)
+  })
+
   const p = document.createElement('p')
   p.textContent = eachCase.body
   displayPanel.appendChild(p)
 }
 
+// Clearing functions
 function clearDisplayPanel() {
   while (displayPanel.firstChild) {
     displayPanel.firstChild.remove()
   }
 }
 
+function clearSideBar() {
+  while (sideBar.firstChild) {
+    sideBar.firstChild.remove()
+  }
+}
+
+// New Case
 newForm.addEventListener('submit', handleSubmit)
 
 function handleSubmit(ev) {
   ev.preventDefault()
-  const title = newForm.elements['title']
-  const body = newForm.elements['body']
+  const title = newForm.title
+  const body = newForm.body
+  const newArray = []
+  const categories = document.getElementsByClassName('categories')
+  for (const cat of categories) {
+    if (cat.checked === true) {
+      newArray.push(cat.id)
+      cat.checked = false
+    }
+  }
   fetch(CASE_URL, {
     method: 'POST',
     headers: {
@@ -65,7 +152,8 @@ function handleSubmit(ev) {
     },
     body: JSON.stringify({
       title: title.value,
-      body: body.value
+      body: body.value,
+      ids: newArray
     })
   }).then(resp => resp.json())
   .then(json => addNewCase(json, title, body))
@@ -74,10 +162,16 @@ function handleSubmit(ev) {
 function addNewCase(json, title, body) {
   title.value = ""
   body.value = ""
-  displayCase(json)
-  createATitle(json)
+  if (filterSelect.value !== "0"){
+    resetFilter()
+    displayCase(json)
+  } else {
+    displayCase(json)
+    createATitle(json)
+  }
 }
 
+// delete
 function handleDelete(eachCase, li) {
   fetch(CASE_URL + "/" + eachCase.id, {
     method: 'DELETE'

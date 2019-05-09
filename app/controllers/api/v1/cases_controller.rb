@@ -9,6 +9,9 @@ class Api::V1::CasesController < ApplicationController
 
   def create
     @case = Case.create(case_params)
+    params[:ids].each {|id|
+       CasesCategory.create({case: @case, category_id: id.to_i})
+    }
     render json: @case
   end
 
