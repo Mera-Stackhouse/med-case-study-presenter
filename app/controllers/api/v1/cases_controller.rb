@@ -1,10 +1,14 @@
 class Api::V1::CasesController < ApplicationController
 
-  before_action :get_case, only: [:update, :destroy]
+  before_action :get_case, only: [:update, :destroy, :show]
 
   def index
     @cases = Case.all
     render json: @cases
+  end
+
+  def show
+    render json: @case
   end
 
   def create

@@ -87,34 +87,41 @@ function createATitle(eachCase) {
 function displayCase(eachCase, li) {
   clearDisplayPanel()
 
-  const h2 = document.createElement('h2')
-  h2.textContent = eachCase.title
-  displayPanel.appendChild(h2)
+  fetch(CASE_URL + "/" + eachCase.id)
+  .then(resp => resp.json())
+  .then(json => {
+    const h2 = document.createElement('h2')
+    h2.textContent = eachCase.title
+    displayPanel.appendChild(h2)
 
-  const editButton = document.createElement('button')
-  editButton.textContent = "Edit"
-  editButton.classList.add('btn-warning')
-  displayPanel.appendChild(editButton)
+    const editButton = document.createElement('button')
+    editButton.textContent = "Edit"
+    editButton.classList.add('btn-warning')
+    editButton.id = 'edit-button-one'
+    editButton.addEventListener('click', () => startEdit(eachCase))
+    displayPanel.appendChild(editButton)
 
-  const deleteButton = document.createElement('button')
-  deleteButton.textContent = "Delete"
-  deleteButton.classList.add('btn-danger')
-  displayPanel.appendChild(deleteButton)
-  deleteButton.addEventListener('click', () => handleDelete(eachCase, li))
+    const deleteButton = document.createElement('button')
+    deleteButton.textContent = "Delete"
+    deleteButton.classList.add('btn-danger')
+    displayPanel.appendChild(deleteButton)
+    deleteButton.addEventListener('click', () => handleDelete(eachCase, li))
 
-  const catUl = document.createElement('ul')
-  catUl.textContent = "Tags:"
-  displayPanel.appendChild(catUl)
+    const catUl = document.createElement('ul')
+    catUl.textContent = "Tags:"
+    displayPanel.appendChild(catUl)
 
-  eachCase.categories.forEach( (cat) => {
-    const catLi = document.createElement('li')
-    catLi.textContent = cat.tag
-    catUl.appendChild(catLi)
+    json.categories.forEach( (cat) => {
+      const catLi = document.createElement('li')
+      catLi.textContent = cat.tag
+      catUl.appendChild(catLi)
+    })
+
+    const p = document.createElement('p')
+    p.textContent = json.body
+    p.id = "case-body"
+    displayPanel.appendChild(p)
   })
-
-  const p = document.createElement('p')
-  p.textContent = eachCase.body
-  displayPanel.appendChild(p)
 }
 
 // Clearing functions
@@ -137,11 +144,11 @@ function handleSubmit(ev) {
   ev.preventDefault()
   const title = newForm.title
   const body = newForm.body
-  const newArray = []
+  const catIds = []
   const categories = document.getElementsByClassName('categories')
   for (const cat of categories) {
     if (cat.checked === true) {
-      newArray.push(cat.id)
+      catIds.push(cat.id)
       cat.checked = false
     }
   }
@@ -153,7 +160,7 @@ function handleSubmit(ev) {
     body: JSON.stringify({
       title: title.value,
       body: body.value,
-      ids: newArray
+      ids: catIds
     })
   }).then(resp => resp.json())
   .then(json => addNewCase(json, title, body))
@@ -172,12 +179,66 @@ function addNewCase(json, title, body) {
   }
 }
 
+// edit
+function startEdit(eachCase) {
+  const editButton = document.getElementById('edit-button-one')
+  editButton.hidden = "hidden"
+
+  const form = document.createElement('form')
+  form.id = 'edit-form'
+
+  const p = document.getElementById('case-body')
+  displayPanel.insertBefore(form, p)
+
+  const textarea = document.createElement('textarea')
+  textarea.value = p.textContent
+  textarea.name = "body"
+  textarea.rows = "8"
+  textarea.cols = "80"
+  form.appendChild(textarea)
+
+  const inputButton = document.createElement('input')
+  inputButton.type = "submit"
+  inputButton.value = "Submit"
+  form.addEventListener('submit', (ev) => handleEdit(ev, eachCase))
+  form.appendChild(inputButton)
+
+  p.remove()
+}
+
+function handleEdit(ev, eachCase) {
+  ev.preventDefault()
+
+  const editButton = document.getElementById('edit-button-one')
+  editButton.hidden =  ""
+
+  fetch(CASE_URL + "/" + eachCase.id, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      body: ev.target.body.value
+    })
+  })
+  .then(resp => resp.json())
+  .then(json => renderEdit(json, ev))
+}
+
+function renderEdit(json, ev) {
+  const p = document.createElement('p')
+  p.id = "case-body"
+  p.textContent = json.body
+  displayPanel.insertBefore(p, ev.target)
+  ev.target.remove()
+}
+
 // delete
 function handleDelete(eachCase, li) {
   fetch(CASE_URL + "/" + eachCase.id, {
     method: 'DELETE'
   })
-  // .catch()
+  // .catch()?
   li.remove()
   clearDisplayPanel()
 }
