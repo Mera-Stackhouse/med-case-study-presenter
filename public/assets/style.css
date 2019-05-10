@@ -1,4 +1,4 @@
-.row {
+/* .row {
   border-style: hidden;
   border-width: 3px;
   border-color: lightgray;
@@ -10,4 +10,9 @@
   border-width: 3px;
   border-color: lightgray;
   padding-bottom: 20px;
+} */
+
+
+.cursor-thing {
+  cursor: pointer
 }

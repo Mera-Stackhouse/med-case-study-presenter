@@ -34,6 +34,23 @@ function handleSearch(ev) {
         }
       })
     })
+  const backButton = document.createElement('button')
+  backButton.classList.add('btn-info')
+  backButton.textContent = "Back"
+  backButton.id = "back"
+  const div = document.getElementById('keyword-search')
+  div.insertBefore(backButton, searchForm)
+  backButton.addEventListener('click', (ev) => goBack(ev, backButton))
+}
+
+function goBack(ev, backButton) {
+  searchForm.search.value = ""
+  backButton.remove()
+  clearSideBar()
+  clearDisplayPanel()
+  fetch(CASE_URL)
+    .then(resp => resp.json())
+    .then(json => populateCaseBar(json))
 }
 
 //filter side Bar
@@ -94,7 +111,7 @@ function populateCaseBar(json) {
 
 function createATitle(eachCase) {
   const li = document.createElement('li')
-  // li.classList.add("list-group-item")
+  li.classList.add("cursor-thing")
   li.addEventListener('click', () => displayCase(eachCase, li))
   sideBar.appendChild(li)
 
