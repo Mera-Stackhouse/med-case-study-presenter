@@ -22,23 +22,18 @@ searchForm.addEventListener('submit', handleSearch)
 //search
 function handleSearch(ev) {
   ev.preventDefault()
-  if (ev.target.search.value !== "") {
-    const keyword = ev.target.search.value
-    clearDisplayPanel()
-    const titles = sideBar.children
-    const markedForDelete = []
-    for (const title of titles) {
-      console.log(title.firstChild.textContent)
-      const disease = title.firstChild.textContent.toLowerCase()
-      // console.log(disease)
-      if (!disease.includes(keyword)) {
-        markedForDelete.push(title)
-      }
-    }
-    markedForDelete.forEach( (title) => {
-      title.remove()
+  const keyword = ev.target.search.value
+  clearDisplayPanel()
+  clearSideBar()
+  fetch(CASE_URL)
+    .then(resp => resp.json())
+    .then (json => {
+      json.forEach( (kase) => {
+        if (kase.body.includes(keyword)) {
+          createATitle(kase)
+        }
+      })
     })
-  }
 }
 
 //filter side Bar
@@ -99,6 +94,7 @@ function populateCaseBar(json) {
 
 function createATitle(eachCase) {
   const li = document.createElement('li')
+  // li.classList.add("list-group-item")
   li.addEventListener('click', () => displayCase(eachCase, li))
   sideBar.appendChild(li)
 

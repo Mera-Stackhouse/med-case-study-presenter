@@ -6,7 +6,7 @@
     <!-- <script src="./src/adapter.js"></script>
     <script src="./src/dogController.js"></script> -->
     <script src="src/index.js" defer></script>
-    <!-- <link rel="stylesheet" href="./assets/style.css"> -->
+    <link rel="stylesheet" href="assets/style.css">
     <!-- <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Open+Sans" rel="stylesheet"> -->
   </head>
   <body>
@@ -30,13 +30,21 @@
       </div>
       <div class="row">
         <div class="col-4">
-          <h4>Cases:</h4>
-          <ul id='side-bar'></ul>
+          <div class="card">
+            <div class="card-header">
+              <h4>Cases:</h4>
+            </div>
+            <div class="panel-body">
+              <ul id='side-bar'></ul>
+            </div>
+          <!-- panel -->
+          </div>
+        <!-- col -->
         </div>
         <div class="col">
-          <ul id='display-panel'>
+          <div id='display-panel'>
 
-          </ul>
+          </div>
         </div>
       <!-- row -->
       </div>
@@ -48,11 +56,13 @@
         <form id='new-form' class="padding margin border-round border-grey">
           <label>Add a New Case</label>
           <br>
-          <input type="text" name="title" placeholder="Title" value=""><br>
-          <textarea name="body" rows="8" cols="80" placeholder="Body"></textarea>
+          <input type="text" name="title" placeholder="Title" value="">
+          <br>
+          <br>
+          <textarea name="body" rows="8" cols="100" placeholder="Body"></textarea>
           <!-- <input type="textarea" name="body" placeholder="body" value=""> -->
           <br>
-          <label>Categories:</label>
+          <label>Tags:</label>
           <input id='btn-submit' type="submit" value="Submit">
         </form>
       <!-- row -->

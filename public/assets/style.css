@@ -1,0 +1,13 @@
+.row {
+  border-style: hidden;
+  border-width: 3px;
+  border-color: lightgray;
+  padding-bottom: 20px;
+}
+
+.main-box {
+  border-style: dotted;
+  border-width: 3px;
+  border-color: lightgray;
+  padding-bottom: 20px;
+}

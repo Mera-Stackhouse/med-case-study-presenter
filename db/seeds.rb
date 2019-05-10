@@ -23,9 +23,11 @@ cas4 = Case.create(title: "Sepsis", body: "blah")
 cas5 = Case.create(title: "Anemia", body: "Anemia is a condition that develops when your blood lacks enough healthy red blood cells or hemoglobin. Hemoglobin is a main part of red blood cells and binds oxygen. If you have too few or abnormal red blood cells, or your hemoglobin is abnormal or low, the cells in your body will not get enough oxygen. Symptoms of anemia -- like fatigue -- occur because organs aren't getting what they need to function properly.")
 
 cat1 = Category.create(tag: "Heart disease")
-cat2 = Category.create(tag: "Cancer")
+cat2 = Category.create(tag: "Oncology")
 cat3 = Category.create(tag: "Inflammatory")
 cat4 = Category.create(tag: "Bacterial")
+cat5 = Category.create(tag: "Parasite")
+cat6 = Category.create(tag: "Internal Medicine")
 
 CasesCategory.create(case: cas1, category: cat1)
 CasesCategory.create(case: cas1, category: cat3)
