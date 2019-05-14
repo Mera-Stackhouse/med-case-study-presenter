@@ -40,7 +40,7 @@ DEPLOYMENT
 
 This app is deployed to:
 * Heroku
-
+https://obscure-chamber-36685.herokuapp.com/
 
 If you would like to use locally:
 * Configuration
