@@ -1,18 +1,12 @@
 # README
 
-Temp Read Me
-
-
-Pitch Req’s:
-Project Idea
-MVP identified (CRUD)
-Stretch goals identified
-Rough idea/draft of schema
-
-
 Medical Case Study SPA
 
-Models/Schema
+ABOUT
+
+This is a single page application for medical case studies. The layout of the page has a side bar at the left to choose a case, a display panel to view each case on the right, and a form at the bottom for creating new cases.
+
+MODELS/SCHEMA
 
 Case
 Has many case-categories
@@ -36,55 +30,46 @@ Has many cases through case-categories
 
 - Tag
 
-
-SPA View
-
-R: Left side bar shows case titles
-- When each title is clicked the full title, categories, and body elements will appear on the right side of page
-- E: edit Botton next to title on right side of page
-    - Hidden forms will appear next to title and body elements
-- D: delete button next to edit button
-    - Deletes it from the left side list // and clears the right side
-
-C: Form along the bottom to create new cases
-- Appears along the left side // and also shows up on the right side
-
-
-Stretch Goals
+Features:
+- Create, view, edit, and delete case studies
 - Filter by category tags
-- Search by keyword in title or in body
+- Search by keyword case body
 
 
+DEPLOYMENT
+
+This app is deployed to:
+* Heroku
 
 
-
-
-
-
-
-
-
-
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
+If you would like to use locally:
 * Configuration
+Uses Postgres Database
 
 * Database creation
+rails db:setup
+rails db:migrate
+
 
 * Database initialization
+To have category tags you will need to either seed using
+rails db:seed
+or create the tags in console with
+rails c
+Category.create(tag: "<tag name here>")
 
-* How to run the test suite
+* Local Server
+To start the server run
+rails s
+and navigate to the port specified by the terminal
 
-* Services (job queues, cache servers, search engines, etc.)
+LICENSE
 
-* Deployment instructions
+MIT License
+Copyright (c) 2019 Mera Stackhouse
 
-* ...
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
