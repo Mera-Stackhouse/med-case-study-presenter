@@ -1,5 +1,5 @@
-const CASE_URL = "http://localhost:3000/api/v1/cases"
-const CAT_URL = "http://localhost:3000/api/v1/categories"
+const CASE_URL = "/api/v1/cases"
+const CAT_URL = "/api/v1/categories"
 const sideBar = document.getElementById('side-bar')
 const displayPanel = document.getElementById('display-panel')
 const newForm = document.getElementById('new-form')
