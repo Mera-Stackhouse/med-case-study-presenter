@@ -6,6 +6,8 @@ ABOUT
 
 This is a single page application for medical case studies. The layout of the page has a side bar at the left to choose a case, a display panel to view each case on the right, and a form at the bottom for creating new cases.
 
+[VIDEO DEMO](https://vimeo.com/348910844)
+
 MODELS/SCHEMA
 
 Case
@@ -40,7 +42,7 @@ DEPLOYMENT
 
 This app is deployed to:
 * Heroku
-https://obscure-chamber-36685.herokuapp.com/
+https://medical-case-study-browser.herokuapp.com/
 
 If you would like to use locally:
 * Configuration
